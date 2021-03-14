@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<p:dialog id="idDetailsLivroDialog" header="Detalhes"
+	widgetVar="detailsLivroDialog" modal="true" showEffect="fade"
+	hideEffect="fade" height="300px" resizable="false" draggable="true"
+	appendTo="@(body)">
+	<p:outputPanel id="panelLivroDetail" style="text-align:center;">
+		<p:panelGrid columns="2" rendered="#{not empty livroBean.livro}"
+			columnClasses="label,value">
+
+			<f:facet name="header">
+				<h:graphicImage name="img/booklogo.png" class="logo"
+					style="height:130px; display:block; margin-left: auto; margin-right: auto;" />
+
+			</f:facet>
+
+			<h:outputText value="Descrição" />
+			<h:outputText value="#{livroBean.livro.descricao}" />
+
+			<h:outputText value="Quantidade de livros" />
+			<h:outputText value="#{livroBean.livro.exemplares}" />
+
+			<h:outputText value="Status" />
+			<h:outputText value="#{livroBean.livro.status}" />
+
+			<h:outputText value="Autores" />
+
+			<p:repeat value="#{livroBean.livro.autores}" var="autor">
+				<h:panelGrid columns="1" cellpadding="5">
+				<h:outputText value="#{autor.nome} " />
+				</h:panelGrid>
+			</p:repeat>
+		</p:panelGrid>
+
+	</p:outputPanel>
+</p:dialog>
+
+</html>

@@ -1,0 +1,30 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:jsf="http://xmlns.jcp.org/jsf" xmlns:p="http://primefaces.org/ui">
+
+	<p:growl id="growl" showDetail="true" />
+	<p:panel header="#{title}"
+		style="margin-left: 10px; margin-right: 10px;">
+		<h:panelGrid columns="3">
+			<p:outputLabel value="Nome:" />
+			<p:inputText id="nome" label="nome"
+				value="#{autorBean.autor.nome}" required="true">
+				<f:validateLength minimum="3" maximum="150"></f:validateLength>
+				<f:ajax event="blur" render="msg"></f:ajax>
+			</p:inputText>
+			<p:message for="nome" />
+
+			<p:outputLabel value="E-mail:" />
+			<p:inputText id="email" value="#{autorBean.autor.email}"
+				required="true">
+				<f:validateLength minimum="4" maximum="150"></f:validateLength>
+				<f:validator validatorId="emailValidator"></f:validator>
+				<f:ajax event="blur" render="msg"></f:ajax>
+			</p:inputText>
+			<p:message for="email" />
+		</h:panelGrid>
+	</p:panel>
+
+</ui:composition>

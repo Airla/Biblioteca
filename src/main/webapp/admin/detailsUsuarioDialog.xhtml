@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<p:dialog id="idDetailsUsuarioDialog" header="Detalhes"
+	widgetVar="detailsUsuarioDialog" modal="true" showEffect="fade"
+	hideEffect="fade" height="300px" resizable="false" draggable="true"
+	appendTo="@(body)">
+	<p:outputPanel id="panelUsuarioDetail" style="text-align:center;">
+		<p:panelGrid columns="2" rendered="#{not empty loginBean.usuarioLogado}"
+			columnClasses="label,value">
+
+			<f:facet name="header">
+				<h:graphicImage name="img/user.png" class="logo"
+					style="height:130px; display:block; margin-left: auto; margin-right: auto;" />
+
+			</f:facet>
+
+			<h:outputText value="Nome" />
+			<h:outputText value="#{loginBean.usuarioLogado.nome}" />
+
+			<h:outputText value="E-mail" />
+			<h:outputText value="#{loginBean.usuarioLogado.email}" />
+
+			<h:outputText value="CPF" />
+			<h:outputText value="#{loginBean.usuarioLogado.cpf}" />
+
+			<h:outputText value="Matrícula" />
+			<h:outputText value="#{loginBean.usuarioLogado.matricula}" />
+			
+		</p:panelGrid>
+
+	</p:outputPanel>
+</p:dialog>
+
+</html>

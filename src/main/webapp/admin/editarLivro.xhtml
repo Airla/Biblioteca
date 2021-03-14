@@ -1,0 +1,36 @@
+<ui:composition template="/WEB-INF/template/template.xhtml" 
+				xmlns="http://www.w3.org/1999/xhtml" 
+				xmlns:f="http://xmlns.jcp.org/jsf/core" 
+				xmlns:h="http://xmlns.jcp.org/jsf/html"
+				xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+				xmlns:jsf="http://xmlns.jcp.org/jsf"
+                                                                 xmlns:p="http://primefaces.org/ui">
+
+<ui:param name="title" value="Editar livro" />
+
+<ui:define name="titulo">Informações de Livros</ui:define>
+
+<ui:define name="conteudo">
+
+<f:metadata>
+	<f:viewParam name="id" value="#{livroBean.livro}" required="true"
+		requiredMessage="Não foi especificado o id do livro">
+	</f:viewParam>
+	<f:viewAction action="#{livroBean.carregaAutoresLivro}" />
+</f:metadata>
+
+	<h:form id="form">
+	<p:messages id="msgEditar"/>
+	
+		<ui:include src="/WEB-INF/template/includes/form_livro.xhtml"/>
+
+		<p:commandButton value="Alterar" action="#{livroBean.altera}" immediate="true"
+		style="margin-left: 10px; margin-top: 10px;">
+		</p:commandButton>
+		<p:commandButton value="Cancelar"
+				action="livros?faces-redirect=true" immediate="true" 
+				style="margin-left: 10px; margin-top: 10px;"></p:commandButton>
+
+	</h:form>
+</ui:define>
+</ui:composition>

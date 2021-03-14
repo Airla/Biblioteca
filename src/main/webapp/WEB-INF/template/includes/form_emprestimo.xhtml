@@ -1,0 +1,110 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:jsf="http://xmlns.jcp.org/jsf" xmlns:p="http://primefaces.org/ui">
+	<h:outputStylesheet name="primeicons/primeicons.css"
+		library="primefaces" />
+
+	<script type="text/javascript">    
+	PrimeFaces.locales['pt'] = {
+            closeText: 'Fechar',
+            prevText: 'Anterior',
+            nextText: 'Próximo',
+            currentText: 'Começo',
+            monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
+            monthNamesShort: ['Jan','Fev','Mar','Abr','Mai','Jun', 'Jul','Ago','Set','Out','Nov','Dez'],
+            dayNames: ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'],
+            dayNamesShort: ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'],
+            dayNamesMin: ['D','S','T','Q','Q','S','S'],
+            weekHeader: 'Semana',
+            firstDay: 1,
+            isRTL: false,
+            showMonthAfterYear: false,
+            yearSuffix: '',
+            timeOnlyTitle: 'Só Horas',
+            timeText: 'Tempo',
+            hourText: 'Hora',
+            minuteText: 'Minuto',
+            secondText: 'Segundo',
+            currentText: 'Data Atual',
+            ampm: false,
+            month: 'Mês',
+            week: 'Semana',
+            day: 'Dia',
+            allDayText : 'Todo Dia'
+        };
+</script>
+
+	<p:growl id="growl" showDetail="true" />
+	<p:panel header="#{title}"
+		style="margin-left: 10px; margin-right: 10px;">
+		<h:panelGrid columns="3">
+
+			<p:outputLabel value="CPF do Leitor:" />
+			<p:selectOneMenu value="#{emprestimoBean.leitorId}" id="leitorMenu" filter="true"
+				style="margin-left: 10px;">
+				<f:selectItems value="#{emprestimoBean.leitores}" var="leitor"
+					itemLabel="#{leitor.cpf}" itemValue="#{leitor.id}">
+				</f:selectItems>
+			</p:selectOneMenu>
+			<p:message for="leitorMenu" />
+			
+			<p:outputLabel value="Data de devolução:" />
+			<p:calendar value="#{emprestimoBean.emprestimo.devolucao}" id="data"
+				label="data" pattern="dd/MM/yyyy" mask="true" locale="pt"
+				timeZone="America/Recife" required="true">
+				<f:ajax event="blur" render="msg"></f:ajax>
+			</p:calendar>
+			<p:message for="data" />
+
+		</h:panelGrid>
+
+		<p:dataTable id="checkboxDT" var="livro"
+			value="#{emprestimoBean.livros}"
+			selection="#{emprestimoBean.livrosEmprestimo}" rowKey="#{livro.id}"
+			style="margin-bottom:0">
+			<f:facet name="header">
+            Livros
+        </f:facet>
+			<p:column id="selecionaTodoLivros" selectionMode="multiple"
+				style="width:16px;text-align:center" />
+			
+			<p:column headerText="Isbn">
+				<h:outputText value="#{livro.isbn}" />
+			</p:column>
+			
+			<p:column headerText="Título">
+				<h:outputText value="#{livro.titulo}" />
+			</p:column>
+			
+			<p:column headerText="Gênero">
+				<h:outputText value="#{livro.genero}" />
+			</p:column>
+			
+			<p:column headerText="Data de Lançamento">
+				<h:outputText value="#{livro.dataLancamento}" />
+			</p:column>
+		</p:dataTable>
+
+		<f:facet name="footer">
+			<p:commandButton process="checkboxDT" update=":form:multiLivroDetail"
+				icon="pi pi-search"
+				oncomplete="PF('multiLivroDialog').show()">
+			</p:commandButton>
+		</f:facet>
+
+	</p:panel>
+
+	<p:dialog header="Livros Selecionados" widgetVar="multiLivroDialog"
+		modal="true" showEffect="fade" hideEffect="fade" resizable="false"
+		width="220">
+		<p:outputPanel id="multiLivroDetail" style="text-align:center;">
+			<ui:repeat value="#{emprestimoBean.livrosEmprestimo}" var="livro">
+				<h:outputText value="#{livro.isbn} - #{livro.titulo}"
+					style="display:block" />
+			</ui:repeat>
+		</p:outputPanel>
+	</p:dialog>
+
+</ui:composition>

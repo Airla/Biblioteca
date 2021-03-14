@@ -1,0 +1,101 @@
+<ui:composition template="WEB-INF/template/template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:jsf="http://xmlns.jcp.org/jsf" xmlns:p="http://primefaces.org/ui">
+
+	<ui:param name="title" value="Registro de usuario"/>
+
+	<ui:define name="titulo"></ui:define>
+
+	<ui:define name="conteudo">
+
+		<h:form id="form">
+		<p:growl id="growl" showDetail="true" />
+			<p:panel header="#{title}"
+					style="margin-left: 10px; margin-right: 10px;">
+			<h:panelGrid columns="3">
+
+					<p:outputLabel value="Nome:" />
+					<p:inputText id="nome" label="nome"
+						value="#{usuarioBean.usuario.nome}" required="true">
+						<f:validateLength minimum="4" maximum="150"></f:validateLength>
+						<f:ajax event="blur" render="msg"></f:ajax>
+					</p:inputText>
+					<p:message for="nome" />
+
+					<p:outputLabel value="CPF:" />
+					<p:inputMask id="cpf" label="cpf"
+						value="#{usuarioBean.usuario.cpf}" required="true" mask="999.999.999-99">
+						<f:validateLength minimum="3" maximum="255"></f:validateLength>
+						<f:ajax event="blur" render="msg"></f:ajax>
+					</p:inputMask>
+					<p:message for="cpf" />
+					
+					<p:outputLabel value="Matrícula:" />
+					<p:inputText id="matricula" label="matricula"
+						value="#{usuarioBean.usuario.matricula}" required="true">
+						<f:validateLength minimum="3" maximum="255"></f:validateLength>
+						<f:ajax event="blur" render="msg"></f:ajax>
+					</p:inputText>
+					<p:message for="matricula" />
+
+					<p:outputLabel value="E-mail:" />
+					<p:inputText id="email" label="email" 
+					value="#{usuarioBean.usuario.email}" required="true">
+						<f:validateLength minimum="4" maximum="150"></f:validateLength>
+						<f:ajax event="blur" render="msg"></f:ajax>
+					</p:inputText>
+					<p:message for="email" />
+					
+					<h:outputText value="Senha: " />
+        			<p:password id="senha" value="#{usuarioBean.usuario.senha}" feedback="true"
+        			promptLabel="Digite a senha" weakLabel="Força da senha : Fraca" 
+					goodLabel="Força da senha : Média" strongLabel="Força da senha : Forte"
+        			required="true">
+        			<f:validateLength minimum="4" maximum="50"></f:validateLength>
+        			<f:ajax event="blur" render="msg"></f:ajax>
+        			</p:password>
+					<p:message for="senha" />
+					
+			</h:panelGrid>
+			<fieldset id="fieldset">
+				<legend>Papel do Usuário</legend>
+
+				<p:outputLabel value="Papel:" />
+				<p:selectOneMenu value="#{usuarioBean.papel}" id="papelMenu">
+					<f:selectItem itemLabel="Administrador" itemValue="ADMIN" />
+					<f:selectItem itemLabel="Bibliotecário" itemValue="BIBLIOTECARIO" />
+				</p:selectOneMenu>
+
+				<p:commandButton id="botaoAdicionaPapel" value="Adiciona papel"
+					action="#{usuarioBean.adicionaPapel}" update=":form"
+					style="margin-left: 10px;">
+					<f:ajax execute="papelMenu" render="papeisUsuario papeisUsuarioHTML msg"></f:ajax>
+				</p:commandButton>
+				
+				<br />
+				<ol jsf:id="papeisUsuarioHTML">
+					<ui:repeat var="papel" value="#{usuarioBean.papeisUsuario}">
+						<li>#{papel}</li>
+					</ui:repeat>
+				</ol>
+
+			</fieldset>
+</p:panel>
+
+			<p:commandButton id="botaoRegistrar" value="Registrar" action="#{usuarioBean.cadastra}"
+				style="margin-left: 10px; margin-top: 10px;"
+				process="@this" update=":form"  partialSubmit="true">
+				<f:ajax execute="@form" render=":usuarios @form msg"/>
+			</p:commandButton>
+			
+			<p:commandButton id="botaoVoltar" value="Voltar para login"
+				action="login?faces-redirect=true" immediate="true"
+				style="margin-left: 10px; margin-top: 10px;"></p:commandButton>
+				
+		</h:form>
+	</ui:define>
+	
+</ui:composition>

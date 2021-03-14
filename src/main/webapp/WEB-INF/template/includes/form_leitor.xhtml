@@ -1,0 +1,41 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:jsf="http://xmlns.jcp.org/jsf" xmlns:p="http://primefaces.org/ui">
+
+	<p:growl id="growl" showDetail="true" />
+	<p:panel header="#{title}"
+		style="margin-left: 10px; margin-right: 10px;">
+		<h:panelGrid columns="3">
+			<p:outputLabel value="Nome:" />
+			<p:inputText id="nome" label="nome" value="#{leitorBean.leitor.nome}"
+				required="true">
+				<f:validateLength minimum="3" maximum="255"></f:validateLength>
+				<f:ajax event="blur" render="msg"></f:ajax>
+			</p:inputText>
+			<p:message for="nome" />
+
+			<p:outputLabel value="E-mail:" />
+			<p:inputText id="email" value="#{leitorBean.leitor.email}"
+				required="true">
+				<f:validateLength minimum="4" maximum="150"></f:validateLength>
+				<f:validator validatorId="emailValidator"></f:validator>
+				<f:ajax event="blur" render="msg"></f:ajax>
+			</p:inputText>
+			<p:message for="email" />
+
+			<p:outputLabel value="CPF:" />
+			<p:inputMask id="cpf" label="cpf" mask="999.999.999-99"
+				value="#{leitorBean.leitor.cpf}" required="true">
+			</p:inputMask>
+			<p:message for="cpf" />
+			<p:outputLabel value="Telefone:" />
+			<p:inputMask id="telefone" label="telefone" mask="(99) 99999-9999"
+				value="#{leitorBean.leitor.telefone}" required="true">
+			</p:inputMask>
+			<p:message for="telefone" />
+		</h:panelGrid>
+	</p:panel>
+
+</ui:composition>

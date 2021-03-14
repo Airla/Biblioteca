@@ -1,0 +1,99 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:p="http://primefaces.org/ui">
+
+	<p:growl id="growl" showDetail="true" />
+	<p:panel header="#{title}" style="margin-left: 10px; margin-right: 10px;">
+	<h:panelGrid columns="3">
+		<p:outputLabel value="Isbn:" />
+		<p:inputText id="isbn" label="isbn" value="#{livroBean.livro.isbn}"
+			required="true"
+			validatorMessage="O ISBN deve conter 5 dígitos numéricos">
+			<f:validateRegex pattern="[0-9]{5}"></f:validateRegex>
+			<f:ajax event="blur" render="msg"></f:ajax>
+		</p:inputText>
+		<p:message for="isbn" />
+		
+		<p:outputLabel value="Título:" />
+		<p:inputText id="titulo" label="titulo"
+			value="#{livroBean.livro.titulo}" required="true">
+			<f:validateLength minimum="3" maximum="150"></f:validateLength>
+			<f:ajax event="blur" render="msg"></f:ajax>
+		</p:inputText>
+		<p:message for="titulo" />
+		
+		<p:outputLabel value="Descrição:" />
+		<p:inputTextarea id="descricao" label="descricao"
+			value="#{livroBean.livro.descricao}" required="true"  style="width: 150px; height: 150px; resize: none;">
+			<f:validateLength minimum="3" maximum="255"></f:validateLength>
+			<f:ajax event="blur" render="msg"></f:ajax>
+		</p:inputTextarea>
+		<p:message for="descricao" />
+		
+		<p:outputLabel value="Data de lançamento:" />
+		<p:inputMask id="data" label="data"  mask="99/99/9999"
+			value="#{livroBean.livro.dataLancamento}" required="true">
+			<f:convertDateTime pattern="dd/MM/yyyy" locale="pt_BR"
+				timeZone="America/Recife" />
+		</p:inputMask>
+		<p:message for="data" />
+		
+		<p:outputLabel value="Quantidade de livros:" />
+			<p:inputText id="quantidade" label="quantidade"
+				value="#{livroBean.livro.exemplares}" required="true">
+				<f:convertNumber integerOnly="true" minIntegerDigits="1"
+					type="number" />
+				<f:validateLongRange minimum="1" maximum="100" />
+				<f:ajax event="blur" render="msg"></f:ajax>
+			</p:inputText>
+			<p:message for="quantidade" />
+			
+	</h:panelGrid>
+	<h:panelGrid columns="2">
+		<p:outputLabel value="Status:" />
+		<p:selectOneMenu value="#{livroBean.livro.status}" id="statusMenu" style="margin-left: 78px;">
+			<f:selectItems value="#{livroBean.status}" var="status"
+				itemLabel="#{status.descricao}" itemValue="#{status}">
+			</f:selectItems>
+		</p:selectOneMenu>
+		<p:outputLabel value="Genero:" />
+		<p:selectOneMenu  value="#{livroBean.livro.genero}" id="generoMenu" style="margin-left: 78px;">
+			<f:selectItems value="#{livroBean.generos}" var="generos"
+				itemLabel="#{generos.descricao}" itemValue="#{generos}">
+			</f:selectItems>
+		</p:selectOneMenu>
+	</h:panelGrid>
+	<fieldset>
+		<legend>Dados do Autor</legend>
+
+		<p:outputLabel value="Autor:" />
+		<p:selectOneMenu value="#{livroBean.autorId}" id="autorMenu" filter="true"
+		style="margin-left: 10px;">
+			<f:selectItems value="#{livroBean.autores}" var="autor"
+				itemLabel="#{autor.nome}" itemValue="#{autor.id}">
+			</f:selectItems>
+		</p:selectOneMenu>
+
+		<p:commandButton value="Adiciona autor"
+			action="#{livroBean.adicionaAutorLivro}" update=":form"
+			style="margin-left: 10px;">
+			<f:ajax execute="autorMenu"
+				render="autoresLivro autoresLivroHTML msg"></f:ajax>
+		</p:commandButton>
+		<br />
+		<p:commandLink action="autores?faces-redirect=true"
+			value="Cadastrar novo autor" immediate="true"/>
+		<br />
+		<ol jsf:id="autoresLivroHTML">
+			<ui:repeat var="autor" value="#{livroBean.autoresLivro}">
+				<li>#{autor.nome}</li>
+			</ui:repeat>
+		</ol>
+
+	</fieldset>
+</p:panel>
+    
+</ui:composition>

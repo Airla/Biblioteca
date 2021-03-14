@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="WEB-INF/template/template.xhtml">
+
+	<ui:param name="title" value="Login" />
+
+	<ui:define name="titulo"></ui:define>
+
+	<ui:define name="conteudo">
+
+		<h:form id="form">
+			<h:messages id="msg" />
+
+			<h:panelGrid columns="2">
+
+				<p:outputLabel value="Login:" />
+				<p:inputText id="login" label="email"
+					value="#{loginBean.usuario.email}" required="true"
+					style="margin-top:20px;">
+				</p:inputText>
+
+				<p:outputLabel value="Senha:" />
+				<p:password id="senha" label="senha"
+					value="#{loginBean.usuario.senha}" required="true">
+				</p:password>
+
+				<p:commandButton id="botaoLogin" action="#{loginBean.login}"
+					style="margin-left: 10px; margin-top: 10px;" value="Login" ajax="false">
+				</p:commandButton>
+
+				<p:commandButton id="botaoIrParaRegistrar" value="Registre-se"
+					action="registra_usuario?faces-redirect=true" immediate="true"
+					style="margin-left: 10px; margin-top: 10px;"></p:commandButton>
+			</h:panelGrid>
+		</h:form>
+	</ui:define>
+
+</ui:composition>
+</html>

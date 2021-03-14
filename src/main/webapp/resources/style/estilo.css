@@ -1,0 +1,27 @@
+@charset "UTF-8";
+
+body {
+	font-size: 12px;
+	font-family: Arial, Helvetica, sans-serif;
+	margin: 0px;
+	font-weight: normal
+}
+
+footer {
+	border-top: 1px solid #ccc;
+	padding: 5px 8px;
+	margin-top: 20px;
+	margin-bottom: 10px
+}
+
+.ui-dialog-title {
+    width: 88%;
+    display: flex;
+    justify-content: center;
+    margin-right: 0 !important;
+}
+.ui-dialog-buttonpane {
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}

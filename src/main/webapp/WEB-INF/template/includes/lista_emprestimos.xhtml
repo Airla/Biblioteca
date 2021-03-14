@@ -1,0 +1,67 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui">
+	<h:outputStylesheet library="webjars"
+		name="font-awesome/5.12.0/css/all.min-jsf.css" />
+	<h:outputStylesheet library="webjars"
+		name="font-awesome/5.12.0/css/v4-shims.min-jsf.css" />
+
+	<h:form>
+		<p:dataTable id="tabelaEmprestimos" var="emprestimo"
+			value="#{emprestimoBean.emprestimosAtivos}"
+			style="margin-left: 10px; margin-right: 10px; margin-top: 10px;"
+			rows="6" paginator="true" lazy="true"
+			emptyMessage="Nenhum emprestimo ativo encontrado"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			rowsPerPageTemplate="6,12,16">
+
+			<f:facet name="header">
+            Emprestimos Ativos
+        </f:facet>
+
+			<p:column headerText="Data de Devolução" style="text-align:center">
+				<h:outputText value="#{emprestimo.devolucao}" />
+			</p:column>
+
+			<p:column headerText="Cpf do leitor" style="text-align:center">
+				<h:outputText value="#{emprestimo.leitor.cpf}" />
+			</p:column>
+
+			<p:column headerText="Livros" style="width:32px;text-align: center">
+				<p:commandButton id="botao-detalhes" icon="fa fa-fw fa-book"
+					oncomplete="PF('livrosEmprestimoDialog').show()" process="@this"
+					update=":idLivrosEmprestimoDialog">
+
+					<f:setPropertyActionListener value="#{emprestimo}"
+						target="#{emprestimoBean.emprestimo}" />
+				</p:commandButton>
+			</p:column>
+
+			<p:column headerText="Devolver" style="width:60px;text-align: center">
+				<p:commandButton icon="pi pi-check"
+					action="#{emprestimoBean.livrosDevolvidos(emprestimo)}"
+					update="tabelaEmprestimos" process="@form">
+					<p:confirm header="CONFIRMAÇÃO"
+						message="Marcar emprestimo #{emprestimo.id} como devolvido?"
+						position="center center">
+						<i class="pi pi-exclamation-circle"></i>
+					</p:confirm>
+				</p:commandButton>
+			</p:column>
+
+		</p:dataTable>
+
+		<p:confirmDialog global="true">
+			<p:commandButton value="Sim" type="button" style="text-align:center"
+				styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+			<p:commandButton value="Não" type="button" style="text-align:center"
+				styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+		</p:confirmDialog>
+	</h:form>
+
+	<ui:include src="/admin/livrosEmprestimoDialog.xhtml"></ui:include>
+</ui:composition>

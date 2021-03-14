@@ -1,0 +1,79 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui">
+	<h:outputStylesheet name="primeicons/primeicons.css"
+		library="primefaces" />
+
+	<h:form>
+		<p:dataTable id="tabelaLivros" var="livro" value="#{livroBean.livros}"
+			style="margin-left: 10px; margin-right: 10px; margin-top: 10px;"
+			rows="6" paginator="true" lazy="true"
+			emptyMessage="Nenhum livro encontrado"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			rowsPerPageTemplate="6,12,16">
+			
+			<f:facet name="header">
+            Livros
+        </f:facet>
+        
+			<p:column headerText="Isbn" style="text-align:center">
+				<h:outputText value="#{livro.isbn}" />
+			</p:column>
+
+			<p:column headerText="Título" style="text-align:center">
+				<h:outputText value="#{livro.titulo}" />
+			</p:column>
+
+			<p:column headerText="Data de lançamento" style="text-align:center">
+				<h:outputText value="#{livro.dataLancamento}" />
+			</p:column>
+			
+			<p:column headerText="Gênero" style="text-align:center">
+				<h:outputText value="#{livro.genero}" />
+			</p:column>
+
+			<p:column style="width:32px;text-align: center">
+				<p:button icon="ui-icon-pencil" outcome="editarLivro">
+					<f:param name="id" value="#{livro.id}"></f:param>
+				</p:button>
+			</p:column>
+
+			<p:column style="width:32px;text-align: center">
+				<p:commandButton icon="ui-icon-trash"
+					action="#{livroBean.remove(livro)}" update="tabelaLivros"
+					process="@form">
+					<p:confirm header="CONFIRMAÇÃO"
+						message="Tem certeza que deseja excluir #{livro.titulo}?"
+						position="center center">
+						<i class="pi pi-exclamation-circle"></i>
+					</p:confirm>
+				</p:commandButton>
+			</p:column>
+
+			<p:column style="width:32px;text-align: center">
+				<p:commandButton id="botao-detalhes" icon="pi pi-search"
+					oncomplete="PF('detailsLivroDialog').show()" process="@this"
+					update=":idDetailsLivroDialog">
+
+					<f:setPropertyActionListener value="#{livro}"
+						target="#{livroBean.livro}" />
+				</p:commandButton>
+
+			</p:column>
+
+		</p:dataTable>
+
+		<p:confirmDialog global="true">
+			<p:commandButton value="Sim" type="button" style="text-align:center"
+				styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+			<p:commandButton value="Não" type="button" style="text-align:center"
+				styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+		</p:confirmDialog>
+	</h:form>
+	
+<ui:include src="/admin/detailsLivroDialog.xhtml"></ui:include>
+</ui:composition>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+	
+<h:head>
+	<title>#{title}</title>
+	<a href="#{request.contextPath}/"> <h:outputStylesheet
+			name="style/estilo.css" />
+	</a>
+	
+<style type="text/css">
+.ui-widget {
+	font-size: 110%;
+}
+</style>
+	
+</h:head>
+
+<h:body>
+
+	<header>
+		<ui:include src="/WEB-INF/template/includes/header.xhtml" />
+	</header>
+
+	<main>
+		<ui:insert name="conteudo"></ui:insert>
+	</main>
+
+	<footer>
+		<ui:include src="/WEB-INF/template/includes/footer.xhtml"></ui:include>
+	</footer>
+
+</h:body>
+
+</html>
